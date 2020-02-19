@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'users_list_page_backup.dart';
 
@@ -14,38 +15,75 @@ class UserDetailsPageBackup extends StatelessWidget {
         title: Text(user.login),
       ),
       body: Center(
-        child: Column(
+        child: Stack(
           children: <Widget>[
-            SizedBox(
-              height: 40,
-            ),
-            Hero(
-              tag: user.id,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(0),
+            Opacity(
+              opacity: 0.3,
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
                 child: Image.network(
                   user.avatarUrl,
-                  width: 220,
+                  width: double.infinity,
                   height: 220,
+                  fit: BoxFit.fitHeight,
+                ),
+                foregroundDecoration: BoxDecoration(
+                  backgroundBlendMode: BlendMode.saturation,
+                  color: Colors.grey,
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              user.login,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                letterSpacing: 8,
-                shadows: [
-                  Shadow(
-                    color: Colors.black87,
-                    offset: Offset(1, 1),
-                    blurRadius: 14,
-                  )
+            Center(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width / 4,
+                  ),
+                  Hero(
+                    tag: user.id,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.width / 2,
+                      foregroundDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(user.avatarUrl),
+                        ),
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 10,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    user.login,
+                    style: TextStyle(
+                        fontSize: 52,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        shadows: [
+                          BoxShadow(
+                            color: Colors.white,
+                            blurRadius: 10,
+                          )
+                        ]),
+                  ),
+                  Text(
+                    "(Senior Flutter Developer)",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w100,
+                      color: Colors.black,
+                      shadows: [
+                        BoxShadow(
+                          color: Colors.white,
+                          blurRadius: 10,
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

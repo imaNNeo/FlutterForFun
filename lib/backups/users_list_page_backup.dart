@@ -69,6 +69,10 @@ class UserRowWidget extends StatelessWidget {
           user.login,
           style: TextStyle(fontSize: 24),
         ),
+        subtitle: Text(
+          user.login.length.toString(),
+        ),
+        trailing: IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
         leading: SizedBox(
           width: 40,
           height: 40,
