@@ -8,9 +8,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Center(child: Text('Hello world!'),),
+      theme: ThemeData(
+        textTheme: GoogleFonts.montserratTextTheme(),
+        primaryColor: Color(0xFF607D8B),
+        primaryColorDark: Color(0xFF455A64),
+        accentColor: Color(0xFF9E9E9E),
       ),
+      home: UsersListPageBackup(),
     );
   }
 }
