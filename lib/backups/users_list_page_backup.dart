@@ -112,3 +112,7 @@ class User {
     return usersJson.map((json) => User.parseUser(json)).toList();
   }
 }
+
+extension on int {
+  double toRadians() => (3.14 / 180.0) * this;
+}
