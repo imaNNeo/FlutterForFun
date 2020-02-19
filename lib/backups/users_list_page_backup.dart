@@ -37,7 +37,9 @@ class _UsersListPageBackupState extends State<UsersListPageBackup> {
                 child: CircularProgressIndicator(),
               )
             : ListView.builder(
-                itemBuilder: (_, index) => UserRowWidget(users[index],),
+                itemBuilder: (_, index) => UserRowWidget(
+                  users[index],
+                ),
                 itemCount: users.length,
               ),
       ),
@@ -72,7 +74,6 @@ class UserRowWidget extends StatelessWidget {
         subtitle: Text(
           user.login.length.toString(),
         ),
-        trailing: IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
         leading: SizedBox(
           width: 40,
           height: 40,

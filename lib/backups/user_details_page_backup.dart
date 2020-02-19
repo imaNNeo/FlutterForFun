@@ -71,7 +71,7 @@ class UserDetailsPageBackup extends StatelessWidget {
                         ]),
                   ),
                   Text(
-                    "(Senior Flutter Developer)",
+                    "(Senior Developer)",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w100,
