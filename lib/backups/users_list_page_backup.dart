@@ -36,11 +36,16 @@ class _UsersListPageBackupState extends State<UsersListPageBackup> {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : ListView.builder(
-                itemBuilder: (_, index) => UserRowWidget(
-                  users[index],
+            : ListWheelScrollView.useDelegate(
+                useMagnifier: true,
+                itemExtent: 80,
+                magnification: 1.2,
+                childDelegate: ListWheelChildBuilderDelegate(
+                  builder: (context, index) => UserRowWidget(
+                    users[index],
+                  ),
+                  childCount: users.length,
                 ),
-                itemCount: users.length,
               ),
       ),
     );
@@ -66,22 +71,26 @@ class UserRowWidget extends StatelessWidget {
           ),
         );
       },
-      child: ListTile(
-        title: Text(
-          user.login,
-          style: TextStyle(fontSize: 24),
-        ),
-        subtitle: Text(
-          user.login.length.toString(),
-        ),
-        leading: SizedBox(
-          width: 48,
-          height: 48,
-          child: Hero(
-            tag: user.id,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: Image.network(user.avatarUrl),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 42),
+        color: colors[user.login.length % colors.length],
+        child: ListTile(
+          title: Text(
+            user.login,
+            style: TextStyle(fontSize: 24),
+          ),
+          subtitle: Text(
+            user.login.length.toString(),
+          ),
+          leading: SizedBox(
+            width: 48,
+            height: 48,
+            child: Hero(
+              tag: user.id,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.network(user.avatarUrl),
+              ),
             ),
           ),
         ),
@@ -96,6 +105,18 @@ List<User> users = [
   User(21, 'technoweenie', 'https://avatars3.githubusercontent.com/u/21?v=4'),
   User(22, 'macournoyer', 'https://avatars3.githubusercontent.com/u/22?v=4'),
   User(20, 'kevinclark', 'https://avatars3.githubusercontent.com/u/23?v=4'),
+];
+
+// test colors
+List<Color> colors = [
+  Colors.purpleAccent,
+  Colors.green,
+  Colors.blueAccent,
+  Colors.yellow,
+  Colors.deepPurple,
+  Colors.blueGrey,
+  Colors.pink,
+  Colors.teal
 ];
 
 class User {
