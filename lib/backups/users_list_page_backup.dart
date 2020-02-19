@@ -75,12 +75,12 @@ class UserRowWidget extends StatelessWidget {
           user.login.length.toString(),
         ),
         leading: SizedBox(
-          width: 40,
-          height: 40,
+          width: 48,
+          height: 48,
           child: Hero(
             tag: user.id,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
               child: Image.network(user.avatarUrl),
             ),
           ),
