@@ -8,7 +8,7 @@ class UsersListPageBackup extends StatefulWidget {
 }
 
 class _UsersListPageBackupState extends State<UsersListPageBackup> {
-  List<User> users = [];
+  List<UserBackup> users = [];
   bool isLoading = true;
 
   @override
@@ -20,42 +20,35 @@ class _UsersListPageBackupState extends State<UsersListPageBackup> {
   void apiCall() async {
     final Response response = await Dio().get("https://api.github.com/users");
     setState(() {
-      users = User.parseUsers(response.data);
+      users = UserBackup.parseUsers(response.data);
       isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Github Users'),
-        ),
-        body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : ListWheelScrollView.useDelegate(
-                useMagnifier: true,
-                itemExtent: 80,
-                magnification: 1.2,
-                childDelegate: ListWheelChildBuilderDelegate(
-                  builder: (context, index) => UserRowWidget(
-                    users[index],
-                  ),
-                  childCount: users.length,
-                ),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Github Users'),
+      ),
+      body: (isLoading)
+        ? Center(
+        child: CircularProgressIndicator(),
+      )
+        : ListView.builder(
+        itemBuilder: (context, index) {
+          return UserWidgetBackup(users[index]);
+        },
+        itemCount: users.length,
       ),
     );
   }
 }
 
-class UserRowWidget extends StatelessWidget {
-  final User user;
+class UserWidgetBackup extends StatelessWidget {
+  final UserBackup user;
 
-  const UserRowWidget(this.user) : super();
+  const UserWidgetBackup(this.user) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -64,33 +57,23 @@ class UserRowWidget extends StatelessWidget {
         Navigator.of(context).push(
           new MaterialPageRoute(
             builder: (context) {
-              return UserDetailsPageBackup(
-                user: user,
-              );
+              return UserDetailsPageBackup(user: user);
             },
           ),
         );
       },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 42),
-        color: colors[user.login.length % colors.length],
-        child: ListTile(
-          title: Text(
-            user.login,
-            style: TextStyle(fontSize: 24),
-          ),
-          subtitle: Text(
-            user.login.length.toString(),
-          ),
-          leading: SizedBox(
-            width: 48,
-            height: 48,
-            child: Hero(
-              tag: user.id,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Image.network(user.avatarUrl),
-              ),
+      child: ListTile(
+        title: Text(user.loginName),
+        subtitle: Text(
+          user.loginName.length.toString(),
+        ),
+        leading: Hero(
+          tag: user.loginName,
+          child: ClipOval(
+            child: Image.network(
+              user.avatarUrl,
+              width: 48,
+              height: 48,
             ),
           ),
         ),
@@ -100,11 +83,11 @@ class UserRowWidget extends StatelessWidget {
 }
 
 // test users
-List<User> users = [
-  User(20, 'kevinclark', 'https://avatars3.githubusercontent.com/u/20?v=4'),
-  User(21, 'technoweenie', 'https://avatars3.githubusercontent.com/u/21?v=4'),
-  User(22, 'macournoyer', 'https://avatars3.githubusercontent.com/u/22?v=4'),
-  User(20, 'kevinclark', 'https://avatars3.githubusercontent.com/u/23?v=4'),
+List<UserBackup> users = [
+  UserBackup(20, 'kevinclark', 'https://avatars3.githubusercontent.com/u/20?v=4'),
+  UserBackup(21, 'technoweenie', 'https://avatars3.githubusercontent.com/u/21?v=4'),
+  UserBackup(22, 'macournoyer', 'https://avatars3.githubusercontent.com/u/22?v=4'),
+  UserBackup(20, 'kevinclark', 'https://avatars3.githubusercontent.com/u/23?v=4'),
 ];
 
 // test colors
@@ -119,23 +102,23 @@ List<Color> colors = [
   Colors.teal
 ];
 
-class User {
+class UserBackup {
   final int id;
-  final String login;
+  final String loginName;
   final String avatarUrl;
 
-  User(this.id, this.login, this.avatarUrl);
+  UserBackup(this.id, this.loginName, this.avatarUrl);
 
-  static User parseUser(Map<String, dynamic> json) {
-    return User(
+  static UserBackup parseUser(Map<String, dynamic> json) {
+    return UserBackup(
       json['id'],
       json['login'],
       json['avatar_url'],
     );
   }
 
-  static List<User> parseUsers(List<dynamic> usersJson) {
-    return usersJson.map((json) => User.parseUser(json)).toList();
+  static List<UserBackup> parseUsers(List<dynamic> usersJson) {
+    return usersJson.map((json) => UserBackup.parseUser(json)).toList();
   }
 }
 
